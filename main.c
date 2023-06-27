@@ -8,6 +8,16 @@ void readFile(const char* filename, PNode pHead);
 // 声明 filewrite.c 中的函数
 void writeToFile(PNode pHead);
 
+PNode createList() {
+    PNode pHead = (PNode)malloc(sizeof(Node));
+    if (pHead == NULL) {
+        printf("Memory allocation failed.\n");
+        return NULL;
+    }
+    pHead->_PNext = NULL; // 添加这行代码
+    return pHead;
+}
+
 int main() {
     PNode pHead = createList(); // 创建链表
 
