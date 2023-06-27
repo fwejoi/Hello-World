@@ -13,6 +13,8 @@ typedef struct SListNode {
     struct SListNode* _PNext;
 } Node, *PNode;
 
+typedef struct SListNode* PNode;
+
 void initList(PNode* pHead);
 void insertNode(PNode pHead, char* name);
 void mergeNodes(PNode pHead);

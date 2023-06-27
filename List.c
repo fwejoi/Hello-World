@@ -9,6 +9,16 @@ void initList(PNode* pHead) {
     (*pHead)->_PNext = NULL;
 }
 
+PNode createList() {
+    PNode pHead = (PNode)malloc(sizeof(Node));
+    if (pHead == NULL) {
+        printf("Memory allocation failed.\n");
+        return NULL;
+    }
+    pHead->_PNext = NULL;
+    return pHead;
+}
+
 void insertNode(PNode pHead, char* name) {
     PNode pNewNode = (PNode)malloc(sizeof(Node));
     strcpy(pNewNode->_data.name, name);
