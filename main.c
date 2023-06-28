@@ -1,22 +1,21 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "head.h"
+#include<stdio.h>
+#include<time.h>
 
-int main() {
-    const char* filename = "user_login.txt";
-    int num_records = 10000;
+#include "Hashtable.h"
 
-    PNode head;
-    initList(&head);
+int  main() {
+    clock_t start, finish; 
+    double    duration; 
 
-    readFile(head, filename, num_records);
+    start = clock(); 
+    file_read_ht();
+    file_write_ht();    
+    finish = clock(); 
+    
+    duration = (double)(finish - start) / CLOCKS_PER_SEC; 
+    printf( "%f seconds\n", duration ); 
 
-    mergeNodes(head);
-
-    printList(head);
-
-    writeToFile(head);
-
+    search_ht();     
 
     return 0;
 }
