@@ -50,11 +50,3 @@ void printList(PNode pHead) {
     }
 }
 
-void freeList(PNode pHead) {
-    PNode pNode = pHead;
-    while (pNode != NULL) {
-        PNode pCurrent = pNode;
-        pNode = pNode->_PNext;
-        free(pCurrent);
-    }
-}
