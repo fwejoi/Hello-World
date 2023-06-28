@@ -20,23 +20,3 @@ void readFile(PNode pHead, const char* filename, int num_records) {
 
     fclose(file);
 }
-
-int main() {
-    const char* filename = "user_login.txt";
-    int num_records = 10000;
-
-    PNode head;
-    initList(&head);
-
-    readFile(head, filename, num_records);
-
-    mergeNodes(head);
-
-    printList(head);
-
-    writeToFile(head);
-
-    freeList(head);
-
-    return 0;
-}

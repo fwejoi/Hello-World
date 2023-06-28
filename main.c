@@ -1,31 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "head.h" // 包含头文件
-
-// 声明 fileread.c 中的函数
-void readFile(const char* filename, PNode pHead);
-
-// 声明 filewrite.c 中的函数
-void writeToFile(PNode pHead);
-
-PNode createList() {
-    PNode pHead = (PNode)malloc(sizeof(Node));
-    if (pHead == NULL) {
-        printf("Memory allocation failed.\n");
-        return NULL;
-    }
-    pHead->_PNext = NULL; // 添加这行代码
-    return pHead;
-}
+#include "head.h"
 
 int main() {
-    PNode pHead = createList(); // 创建链表
+    const char* filename = "user_login.txt";
+    int num_records = 10000;
 
-    readFile("user_login.txt", pHead); // 调用读取文件的函数
+    PNode head;
+    initList(&head);
 
-    // 执行其他操作...
+    readFile(head, filename, num_records);
 
-    writeToFile(pHead); // 调用将链表写入文件的函数
+    mergeNodes(head);
+
+    printList(head);
+
+    writeToFile(head);
+
 
     return 0;
 }

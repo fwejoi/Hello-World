@@ -1,5 +1,7 @@
 #include <stdio.h>
-#include "head.h" // 包含头文件
+#include <stdlib.h>
+#include <string.h>
+#include "head.h"
 
 void writeToFile(PNode pHead) {
     FILE* file = fopen("result.txt", "w");
@@ -10,7 +12,7 @@ void writeToFile(PNode pHead) {
 
     PNode pNode = pHead->_PNext;
     while (pNode != NULL) {
-        fprintf(file, "%s,%d\n", pNode->_data.name, pNode->_data.totalcount);
+        fprintf(file, "%s, %d\n", pNode->_data.name, pNode->_data.totalcount);
         pNode = pNode->_PNext;
     }
 
