@@ -17,6 +17,7 @@ void readFile(PNode pHead, const char* filename, int num_records) {
         insertNode(pHead, username);
         count++;
     }
+ 
 
     fclose(file);
 }
