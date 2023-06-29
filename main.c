@@ -1,17 +1,21 @@
-#include <stdio.h>
+#include<stdio.h>
+#include<time.h>
+
 #include "Hashtable.h"
 
-void init_table() {
-    for (int i = 0; i < MAX_BUCKETS; i++) {
-        table[i] = NULL;
-    }
-}
+int  main() {
+    clock_t start, finish; 
+    double    duration; 
 
-int main() {
-    init_table();
+    start = clock(); 
     file_read_ht();
-    file_write_ht();
-    search_ht();
+    file_write_ht();    
+    finish = clock(); 
     
+    duration = (double)(finish - start) / CLOCKS_PER_SEC; 
+    printf( "%f seconds\n", duration ); 
+
+    search_ht();     
+
     return 0;
 }
