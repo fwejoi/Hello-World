@@ -42,21 +42,27 @@ static PNode walloc(const char *str)
 /*计算哈希值*/
 static unsigned long hashstring(const char *str)
 {
-     unsigned long hash = 0;
-    while (*str) {
-        hash = hash * MULTIPLIER + *str++;
+    unsigned long hash = 0;
+    unsigned int base = 31;
+    unsigned int tableSize = 1000;
+
+    for (int i = 0; str[i] != '\0'; i++) {
+        hash = (hash * base + str[i]) % tableSize;
     }
-    return hash % MAX_BUCKETS;
+
+    return hash;
 }
 
 /*在一个链表中查找人名，找到返回指针，找不到返回NULL*/
 static PNode find(PNode wp , const char *str)
 {
-     while (wp != NULL) {
-        if (strcmp(wp->data.name, str) == 0) {
-            return wp;
+    PNode curr;
+    for (curr = wp; curr != NULL; curr = curr->next)
+    {
+        if (strcmp(curr->data.name, str) == 0)
+        {
+            return curr;
         }
-        wp = wp->next;
     }
     return NULL;
 }
@@ -64,19 +70,18 @@ static PNode find(PNode wp , const char *str)
 /*将在散列表中查找相应节点，并进行相应操作，找到返回指针，没找到则创建节点并加入散列表,并返回指针*/
 static PNode lookup(const char *str)
 {
-      unsigned long hash = hashstring(str);
+    unsigned long hash = hashstring(str);
     PNode wp = table[hash];
-    PNode node = find(wp, str);
-    if (node != NULL) {
-        return node;
-    }
+    PNode curr = NULL;
 
-    PNode newNode = walloc(str);
-    if (newNode != NULL) {
-        newNode->next = table[hash];
-        table[hash] = newNode;
+    curr = find(wp, str);
+    if (!curr)
+    {
+        curr = walloc(str);
+        curr->next = table[hash];
+        table[hash] = curr;
     }
-    return newNode;
+    return curr;
 }
 
 /*删除散列表*/
@@ -112,8 +117,10 @@ void file_read_ht()
         name = strtok(word, ",");
         ////begin
         //加入散列表，2条语句实现
-         wp = lookup(name);
-        wp->data.totalcount++;
+         PNode node = lookup(name);
+        if (node) {
+            node->data.totalcount++;
+        }
         ////end
  
         count++;
@@ -134,10 +141,10 @@ void file_write_ht()
     }
 
     ////begin
-     for (int i = 0; i < MAX_BUCKETS; i++) {
+    for (int i = 0; i < MAX_BUCKETS; i++) {
         PNode wp = table[i];
-        while (wp != NULL) {
-            fprintf(fp, "%s, %d\n", wp->data.name, wp->data.totalcount);
+        while (wp) {
+            fprintf(fp, "%s,%d\n", wp->data.name, wp->data.totalcount);
             count++;
             wp = wp->next;
         }
@@ -160,21 +167,15 @@ void search_ht()
         unsigned long hash = hashstring(name);
         PNode wp = table[hash];
         PNode curr = NULL;
-
         ////begin
-          while (wp != NULL) {
-            if (strcmp(wp->data.name, name) == 0) {
-                printf("姓名：%s，登录次数：%d\n", wp->data.name, wp->data.totalcount);
-                break;
-            }
-            wp = wp->next;
+        curr = find(wp, name);
+        if (curr) {
+            printf("Name: %s, Count: %d\n", curr->data.name, curr->data.totalcount);
         }
-
-        if (wp == NULL) {
-            printf("姓名未找到。\n");
+        else {
+            printf("Name not found.\n");
         }
         ////end
-
         scanf("%s", name);
     }    
 
